@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="src/GitNeko.Domain/GitNeko.Domain.csproj" Id="2c4ade5c-125d-4ff1-b671-23647f43747f" />
+  <Project Path="src/GitNeko.Infrastructure/GitNeko.Infrastructure.csproj" Id="6ccd4baf-c474-410d-a086-968030b111b1" />
+  <Project Path="src/GitNeko/GitNeko.csproj" Id="df47a7c0-1403-431c-aeda-4d00e3e0fe28" />
+  <Project Path="src/GitNeko.Application/GitNeko.Application.csproj" Id="01b1adbf-6deb-4964-904f-cbbd46c4db01" />
+</Solution>
