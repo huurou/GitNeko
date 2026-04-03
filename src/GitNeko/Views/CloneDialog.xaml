@@ -1,0 +1,66 @@
+<Window x:Class="GitNeko.Views.CloneDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="リポジトリのクローン"
+        Height="300" Width="500"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize">
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- リポジトリURL -->
+        <TextBlock Grid.Row="0" Grid.Column="0"
+                   Text="リポジトリURL" VerticalAlignment="Center" Margin="0,0,8,8"/>
+        <TextBox Grid.Row="0" Grid.Column="1"
+                 Text="{Binding RepositoryUrl, UpdateSourceTrigger=PropertyChanged}"
+                 Margin="0,0,0,8"/>
+
+        <!-- フォルダ名 -->
+        <TextBlock Grid.Row="1" Grid.Column="0"
+                   Text="フォルダ名" VerticalAlignment="Center" Margin="0,0,8,8"/>
+        <TextBox Grid.Row="1" Grid.Column="1"
+                 Text="{Binding FolderName, UpdateSourceTrigger=PropertyChanged}"
+                 Margin="0,0,0,8"/>
+
+        <!-- プログレスバー -->
+        <ProgressBar Grid.Row="2" Grid.ColumnSpan="2"
+                     Value="{Binding ProgressPercent, Mode=OneWay}"
+                     Height="20" Margin="0,8,0,4"/>
+
+        <!-- 進捗メッセージ -->
+        <TextBlock Grid.Row="3" Grid.ColumnSpan="2"
+                   Text="{Binding ProgressMessage, Mode=OneWay}"
+                   Margin="0,0,0,8"
+                   TextWrapping="Wrap"/>
+
+        <!-- ボタン -->
+        <StackPanel Grid.Row="6" Grid.ColumnSpan="2"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+            <Button Content="実行"
+                    Command="{Binding ExecuteCloneCommand}"
+                    Width="80" Margin="0,0,8,0"/>
+            <Button Content="キャンセル"
+                    Command="{Binding ExecuteCloneCancelCommand}"
+                    Width="80"/>
+            <Button Content="閉じる"
+                    Click="OnCloseButtonClick"
+                    Width="80" Margin="8,0,0,0"/>
+        </StackPanel>
+    </Grid>
+</Window>

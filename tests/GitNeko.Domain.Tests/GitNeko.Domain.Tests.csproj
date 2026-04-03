@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\GitNeko.Domain\GitNeko.Domain.csproj" />
+    <ProjectReference Include="..\..\src\GitNeko.Application\GitNeko.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>
