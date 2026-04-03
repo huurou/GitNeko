@@ -9,9 +9,9 @@ public static partial class RepositoryUrlParser
         if (string.IsNullOrWhiteSpace(url))
             return false;
 
-        if (url.StartsWith("https://", StringComparison.OrdinalIgnoreCase) ||
-            url.StartsWith("http://", StringComparison.OrdinalIgnoreCase))
-            return true;
+        if (Uri.TryCreate(url, UriKind.Absolute, out var uri) &&
+            (uri.Scheme == Uri.UriSchemeHttps || uri.Scheme == Uri.UriSchemeHttp))
+            return uri.AbsolutePath != "/";
 
         if (ScpPattern().IsMatch(url))
             return true;
@@ -35,6 +35,11 @@ public static partial class RepositoryUrlParser
             var lastSlash = path.LastIndexOf('/');
             return lastSlash >= 0 ? path[(lastSlash + 1)..] : path;
         }
+
+        if (Uri.TryCreate(trimmed, UriKind.Absolute, out var uri) &&
+            (uri.Scheme == Uri.UriSchemeHttps || uri.Scheme == Uri.UriSchemeHttp) &&
+            uri.AbsolutePath == "/")
+            return string.Empty;
 
         var lastSep = trimmed.LastIndexOf('/');
         return lastSep >= 0 ? trimmed[(lastSep + 1)..] : string.Empty;

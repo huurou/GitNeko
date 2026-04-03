@@ -51,4 +51,20 @@ public class RepositoryUrlParser_IsRepositoryUrl
 
         Assert.False(result);
     }
+
+    [Fact]
+    public void パスなしHTTPS_URLの場合_falseを返す()
+    {
+        var result = RepositoryUrlParser.IsRepositoryUrl("https://example.com");
+
+        Assert.False(result);
+    }
+
+    [Fact]
+    public void パスなしHTTPS_URL末尾スラッシュの場合_falseを返す()
+    {
+        var result = RepositoryUrlParser.IsRepositoryUrl("https://example.com/");
+
+        Assert.False(result);
+    }
 }

@@ -67,4 +67,20 @@ public class RepositoryUrlParser_ExtractRepositoryName
 
         Assert.Equal(string.Empty, result);
     }
+
+    [Fact]
+    public void パスなしHTTPS_URL_空文字列を返す()
+    {
+        var result = RepositoryUrlParser.ExtractRepositoryName("https://example.com");
+
+        Assert.Equal(string.Empty, result);
+    }
+
+    [Fact]
+    public void パスなしHTTPS_URL末尾スラッシュ_空文字列を返す()
+    {
+        var result = RepositoryUrlParser.ExtractRepositoryName("https://example.com/");
+
+        Assert.Equal(string.Empty, result);
+    }
 }

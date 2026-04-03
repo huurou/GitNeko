@@ -10,9 +10,14 @@ public sealed class LibGit2SharpRepositoryScanner : IGitRepositoryScanner
 {
     public IReadOnlyList<GitRepository> ScanDirectory(string directoryPath)
     {
+        string[] subDirs;
+        try { subDirs = Directory.GetDirectories(directoryPath); }
+        catch (UnauthorizedAccessException) { return []; }
+        catch (SecurityException) { return []; }
+
         var results = new List<GitRepository>();
 
-        foreach (var subDir in Directory.GetDirectories(directoryPath))
+        foreach (var subDir in subDirs)
         {
             try
             {
