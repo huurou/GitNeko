@@ -13,7 +13,7 @@ public class CloneRepositoryUseCaseTest
         var useCase = new CloneRepositoryUseCase(service);
         var request = new CloneRequest("", @"C:\test", "repo");
 
-        await Assert.ThrowsAsync<ArgumentException>(() => useCase.ExecuteAsync(request));
+        await Assert.ThrowsAsync<ArgumentException>(() => useCase.ExecuteAsync(request, cancellationToken: TestContext.Current.CancellationToken));
     }
 
     [Fact]
@@ -23,7 +23,7 @@ public class CloneRepositoryUseCaseTest
         var useCase = new CloneRepositoryUseCase(service);
         var request = new CloneRequest("https://example.com/repo.git", @"C:\test", "");
 
-        await Assert.ThrowsAsync<ArgumentException>(() => useCase.ExecuteAsync(request));
+        await Assert.ThrowsAsync<ArgumentException>(() => useCase.ExecuteAsync(request, cancellationToken: TestContext.Current.CancellationToken));
     }
 
     [Fact]
@@ -33,7 +33,7 @@ public class CloneRepositoryUseCaseTest
         var useCase = new CloneRepositoryUseCase(service);
         var request = new CloneRequest("https://example.com/repo.git", @"C:\test", "repo");
 
-        await useCase.ExecuteAsync(request);
+        await useCase.ExecuteAsync(request, cancellationToken: TestContext.Current.CancellationToken);
 
         Assert.True(service.WasCalled);
     }
@@ -45,7 +45,7 @@ public class CloneRepositoryUseCaseTest
         var useCase = new CloneRepositoryUseCase(service);
         var request = new CloneRequest("https://example.com/repo.git", "relative/path", "repo");
 
-        await Assert.ThrowsAsync<ArgumentException>(() => useCase.ExecuteAsync(request));
+        await Assert.ThrowsAsync<ArgumentException>(() => useCase.ExecuteAsync(request, cancellationToken: TestContext.Current.CancellationToken));
     }
 
     [Fact]
@@ -55,7 +55,7 @@ public class CloneRepositoryUseCaseTest
         var useCase = new CloneRepositoryUseCase(service);
         var request = new CloneRequest("https://example.com/repo.git", @"D:\repos", "repo");
 
-        await useCase.ExecuteAsync(request);
+        await useCase.ExecuteAsync(request, cancellationToken: TestContext.Current.CancellationToken);
 
         Assert.True(service.WasCalled);
     }
@@ -67,7 +67,7 @@ public class CloneRepositoryUseCaseTest
         var useCase = new CloneRepositoryUseCase(service);
         var request = new CloneRequest("https://example.com/repo.git", "/home/user/repos", "repo");
 
-        await useCase.ExecuteAsync(request);
+        await useCase.ExecuteAsync(request, cancellationToken: TestContext.Current.CancellationToken);
 
         Assert.True(service.WasCalled);
     }
@@ -79,7 +79,7 @@ public class CloneRepositoryUseCaseTest
         var useCase = new CloneRepositoryUseCase(service);
         var request = new CloneRequest(@"C:\repos\source.git", @"C:\test", "repo");
 
-        await useCase.ExecuteAsync(request);
+        await useCase.ExecuteAsync(request, cancellationToken: TestContext.Current.CancellationToken);
 
         Assert.True(service.WasCalled);
     }
@@ -91,7 +91,7 @@ public class CloneRepositoryUseCaseTest
         var useCase = new CloneRepositoryUseCase(service);
         var request = new CloneRequest("/home/user/example.git", @"C:\test", "repo");
 
-        await useCase.ExecuteAsync(request);
+        await useCase.ExecuteAsync(request, cancellationToken: TestContext.Current.CancellationToken);
 
         Assert.True(service.WasCalled);
     }
@@ -103,7 +103,7 @@ public class CloneRepositoryUseCaseTest
         var useCase = new CloneRepositoryUseCase(service);
         var request = new CloneRequest("relative/path/repo", @"C:\test", "repo");
 
-        await Assert.ThrowsAsync<ArgumentException>(() => useCase.ExecuteAsync(request));
+        await Assert.ThrowsAsync<ArgumentException>(() => useCase.ExecuteAsync(request, cancellationToken: TestContext.Current.CancellationToken));
     }
 
     private sealed class FakeCloneService : IGitCloneService
