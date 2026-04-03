@@ -1,4 +1,4 @@
-using GitNeko.Application.UseCases;
+﻿using GitNeko.Application.UseCases;
 using GitNeko.Infrastructure;
 using GitNeko.Services;
 using GitNeko.ViewModels;
@@ -22,6 +22,7 @@ public class Program
         services.AddTransient<CloneRepositoryUseCase>();
 
         // Presentation層（サービス、ViewModel、View）
+        services.AddSingleton<IClipboardService, ClipboardService>();
         services.AddSingleton<IDialogService, DialogService>();
         services.AddTransient<MainWindowViewModel>();
         services.AddSingleton<App>();

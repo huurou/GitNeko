@@ -1,4 +1,4 @@
-using GitNeko.ViewModels;
+﻿using GitNeko.ViewModels;
 using System.Windows;
 
 namespace GitNeko;

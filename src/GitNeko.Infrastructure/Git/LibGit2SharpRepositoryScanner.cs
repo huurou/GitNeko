@@ -1,5 +1,7 @@
-using System.IO;
+﻿using System.IO;
+using System.Security;
 using GitNeko.Domain.Repositories;
+using GitNeko.Domain.Services;
 using LibGit2Sharp;
 
 namespace GitNeko.Infrastructure.Git;
@@ -12,16 +14,27 @@ public sealed class LibGit2SharpRepositoryScanner : IGitRepositoryScanner
 
         foreach (var subDir in Directory.GetDirectories(directoryPath))
         {
-            if (!Repository.IsValid(subDir))
-                continue;
-
-            using var repo = new Repository(subDir);
-            results.Add(new GitRepository
+            try
             {
-                Name = Path.GetFileName(subDir),
-                FullPath = subDir,
-                CurrentBranch = repo.Head?.FriendlyName,
-            });
+                if (!Repository.IsValid(subDir))
+                    continue;
+
+                using var repo = new Repository(subDir);
+                results.Add(new GitRepository
+                {
+                    Name = Path.GetFileName(subDir),
+                    FullPath = subDir,
+                    CurrentBranch = repo.Head?.FriendlyName,
+                });
+            }
+            catch (UnauthorizedAccessException)
+            {
+                continue;
+            }
+            catch (SecurityException)
+            {
+                continue;
+            }
         }
 
         return results;

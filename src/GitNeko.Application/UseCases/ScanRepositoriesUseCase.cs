@@ -1,4 +1,5 @@
-using GitNeko.Domain.Repositories;
+﻿using GitNeko.Domain.Repositories;
+using GitNeko.Domain.Services;
 
 namespace GitNeko.Application.UseCases;
 

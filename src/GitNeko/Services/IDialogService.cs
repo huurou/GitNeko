@@ -1,4 +1,4 @@
-namespace GitNeko.Services;
+﻿namespace GitNeko.Services;
 
 public interface IDialogService
 {

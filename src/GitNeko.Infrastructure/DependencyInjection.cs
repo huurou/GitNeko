@@ -1,6 +1,4 @@
-using GitNeko.Domain.Repositories;
-using GitNeko.Domain.Services;
-using GitNeko.Infrastructure.Clipboard;
+﻿using GitNeko.Domain.Services;
 using GitNeko.Infrastructure.Git;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,7 +10,6 @@ public static class DependencyInjection
     {
         services.AddSingleton<IGitRepositoryScanner, LibGit2SharpRepositoryScanner>();
         services.AddSingleton<IGitCloneService, LibGit2SharpCloneService>();
-        services.AddSingleton<IClipboardService, ClipboardService>();
         return services;
     }
 }

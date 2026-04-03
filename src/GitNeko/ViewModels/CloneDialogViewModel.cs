@@ -1,8 +1,9 @@
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GitNeko.Application.UseCases;
 using GitNeko.Domain.Repositories;
 using GitNeko.Domain.Services;
+using GitNeko.Services;
 
 namespace GitNeko.ViewModels;
 
@@ -12,9 +13,11 @@ public sealed partial class CloneDialogViewModel : ObservableObject
     private readonly string _parentDirectoryPath;
 
     [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(ExecuteCloneCommand))]
     private string _repositoryUrl = string.Empty;
 
     [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(ExecuteCloneCommand))]
     private string _folderName = string.Empty;
 
     [ObservableProperty]
@@ -24,6 +27,7 @@ public sealed partial class CloneDialogViewModel : ObservableObject
     private int _progressPercent;
 
     [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(ExecuteCloneCommand))]
     private bool _isCloning;
 
     public bool IsCompleted { get; private set; }
@@ -37,18 +41,21 @@ public sealed partial class CloneDialogViewModel : ObservableObject
         _parentDirectoryPath = parentDirectoryPath;
 
         var clipboardText = clipboardService.GetText();
-        if (!string.IsNullOrWhiteSpace(clipboardText))
+        if (!string.IsNullOrWhiteSpace(clipboardText) && RepositoryUrlParser.IsRepositoryUrl(clipboardText))
             RepositoryUrl = clipboardText;
     }
 
     partial void OnRepositoryUrlChanged(string value)
     {
-        var repoName = ExtractRepositoryName(value);
+        var repoName = RepositoryUrlParser.ExtractRepositoryName(value);
         if (!string.IsNullOrEmpty(repoName))
             FolderName = repoName;
     }
 
-    [RelayCommand(IncludeCancelCommand = true)]
+    private bool CanExecuteClone() =>
+        !string.IsNullOrWhiteSpace(RepositoryUrl) && !string.IsNullOrWhiteSpace(FolderName) && !IsCloning;
+
+    [RelayCommand(CanExecute = nameof(CanExecuteClone), IncludeCancelCommand = true)]
     private async Task ExecuteCloneAsync(CancellationToken cancellationToken)
     {
         IsCloning = true;
@@ -80,18 +87,5 @@ public sealed partial class CloneDialogViewModel : ObservableObject
         {
             IsCloning = false;
         }
-    }
-
-    internal static string ExtractRepositoryName(string url)
-    {
-        if (string.IsNullOrWhiteSpace(url))
-            return string.Empty;
-
-        var trimmed = url.TrimEnd('/');
-        if (trimmed.EndsWith(".git", StringComparison.OrdinalIgnoreCase))
-            trimmed = trimmed[..^4];
-
-        var lastSlash = trimmed.LastIndexOf('/');
-        return lastSlash >= 0 ? trimmed[(lastSlash + 1)..] : string.Empty;
     }
 }

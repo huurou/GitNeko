@@ -1,4 +1,4 @@
-namespace GitNeko.Domain.Repositories;
+﻿namespace GitNeko.Domain.Repositories;
 
 public sealed record CloneRequest(
     string RepositoryUrl,

@@ -1,5 +1,4 @@
-using GitNeko.Application.UseCases;
-using GitNeko.Domain.Services;
+﻿using GitNeko.Application.UseCases;
 using GitNeko.ViewModels;
 using GitNeko.Views;
 using System.Windows;
