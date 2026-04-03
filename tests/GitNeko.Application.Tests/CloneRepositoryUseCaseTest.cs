@@ -72,6 +72,40 @@ public class CloneRepositoryUseCaseTest
         Assert.True(service.WasCalled);
     }
 
+    [Fact]
+    public async Task クローン_ローカルWindows絶対パス_サービスが呼ばれる()
+    {
+        var service = new FakeCloneService();
+        var useCase = new CloneRepositoryUseCase(service);
+        var request = new CloneRequest(@"C:\repos\source.git", @"C:\test", "repo");
+
+        await useCase.ExecuteAsync(request);
+
+        Assert.True(service.WasCalled);
+    }
+
+    [Fact]
+    public async Task クローン_ローカルUnix絶対パス_サービスが呼ばれる()
+    {
+        var service = new FakeCloneService();
+        var useCase = new CloneRepositoryUseCase(service);
+        var request = new CloneRequest("/home/user/example.git", @"C:\test", "repo");
+
+        await useCase.ExecuteAsync(request);
+
+        Assert.True(service.WasCalled);
+    }
+
+    [Fact]
+    public async Task クローン_ローカル相対パス_例外を投げる()
+    {
+        var service = new FakeCloneService();
+        var useCase = new CloneRepositoryUseCase(service);
+        var request = new CloneRequest("relative/path/repo", @"C:\test", "repo");
+
+        await Assert.ThrowsAsync<ArgumentException>(() => useCase.ExecuteAsync(request));
+    }
+
     private sealed class FakeCloneService : IGitCloneService
     {
         public bool WasCalled { get; private set; }
