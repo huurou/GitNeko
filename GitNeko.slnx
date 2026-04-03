@@ -3,5 +3,5 @@
   <Project Path="src/GitNeko.Infrastructure/GitNeko.Infrastructure.csproj" />
   <Project Path="src/GitNeko/GitNeko.csproj" />
   <Project Path="src/GitNeko.Application/GitNeko.Application.csproj" />
-  <Project Path="tests/GitNeko.Domain.Tests/GitNeko.Domain.Tests.csproj" />
+  <Project Path="tests/GitNeko.Application.Tests/GitNeko.Application.Tests.csproj" />
 </Solution>

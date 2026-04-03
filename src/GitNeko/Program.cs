@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using GitNeko.Application.UseCases;
+using GitNeko.Infrastructure;
+using GitNeko.Services;
+using GitNeko.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 
 namespace GitNeko;
@@ -10,6 +14,17 @@ public class Program
     {
         var services = new ServiceCollection();
 
+        // Infrastructure層（Git操作、クリップボード等）
+        services.AddInfrastructure();
+
+        // Application層（ユースケース）
+        services.AddTransient<ScanRepositoriesUseCase>();
+        services.AddTransient<CloneRepositoryUseCase>();
+
+        // Presentation層（サービス、ViewModel、View）
+        services.AddSingleton<IClipboardService, ClipboardService>();
+        services.AddSingleton<IDialogService, DialogService>();
+        services.AddTransient<MainWindowViewModel>();
         services.AddSingleton<App>();
         services.AddSingleton<MainWindow>();
 
@@ -32,7 +47,7 @@ public class Program
             (s, e) =>
             {
                 e.Handled = true;
-                MessageBox.Show(e.Exception.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(e.Exception.Message, "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
             };
 
         TaskScheduler.UnobservedTaskException +=
@@ -40,7 +55,7 @@ public class Program
             {
                 e.SetObserved();
                 app.Dispatcher.Invoke(() =>
-                    MessageBox.Show(e.Exception.InnerException?.Message ?? e.Exception.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error)
+                    MessageBox.Show(e.Exception.InnerException?.Message ?? e.Exception.Message, "エラー", MessageBoxButton.OK, MessageBoxImage.Error)
                 );
             };
 
@@ -49,7 +64,7 @@ public class Program
             {
                 if (e.ExceptionObject is Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(ex.Message, "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             };
     }
