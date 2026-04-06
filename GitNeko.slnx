@@ -1,7 +1,9 @@
 <Solution>
+  <Project Path="src/GitNeko.Application/GitNeko.Application.csproj" />
   <Project Path="src/GitNeko.Domain/GitNeko.Domain.csproj" />
   <Project Path="src/GitNeko.Infrastructure/GitNeko.Infrastructure.csproj" />
   <Project Path="src/GitNeko/GitNeko.csproj" />
-  <Project Path="src/GitNeko.Application/GitNeko.Application.csproj" />
-  <Project Path="tests/GitNeko.Application.Tests/GitNeko.Application.Tests.csproj" />
+  <Project Path="tests/GitNeko.Application.Tests/GitNeko.Application.Tests.csproj">
+    <Build Solution="Debug|*" Project="false" />
+  </Project>
 </Solution>
